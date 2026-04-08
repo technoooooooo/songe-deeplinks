@@ -27,6 +27,25 @@
   <!-- Apple Smart App Banner -->
   <meta name="apple-itunes-app" content="app-id=6741076205" />
 
+  <script>
+    // Redirection auto vers le store approprié sur mobile.
+    // Exécuté avant le rendu pour éviter tout flash de la landing.
+    (function () {
+      var IOS_URL = 'https://apps.apple.com/app/id6741076205';
+      var ANDROID_URL = 'https://play.google.com/store/apps/details?id=studio.techno.songe';
+      var ua = navigator.userAgent || navigator.vendor || '';
+      // iPadOS 13+ se présente comme Macintosh avec touch — on l'attrape aussi.
+      var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+        (/Macintosh/.test(ua) && 'ontouchend' in document);
+      var isAndroid = /android/i.test(ua);
+      if (isIOS) {
+        window.location.replace(IOS_URL);
+      } else if (isAndroid) {
+        window.location.replace(ANDROID_URL);
+      }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
