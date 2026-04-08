@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["WSNVUL9QY3.studio.techno.songe"],
+        "components": [
+          {
+            "/": "/u/*",
+            "comment": "Profile share links"
+          }
+        ]
+      }
+    ]
+  }
+}

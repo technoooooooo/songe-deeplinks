@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#5A7DFF" />
+  <title>Profil Songe</title>
+  <meta name="description" content="Découvre ce profil sur Songe — l'app pour les amoureux de lecture." />
+
+  <!-- Open Graph (statiques — pour des previews dynamiques par profil il faudra une edge function) -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="Découvre ce profil sur Songe" />
+  <meta property="og:description" content="Suis ses lectures, ses coups de cœur et rejoins-le sur Songe." />
+  <meta property="og:site_name" content="Songe" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Apple Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=6741076205" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --accent: #5A7DFF;
+      --accent-soft: rgba(90, 125, 255, 0.08);
+      --accent-strong: #4666E8;
+      --primary-text: #14181B;
+      --secondary-text: #57636C;
+      --bg: #F1F4F8;
+      --card: #FFFFFF;
+      --shadow: 0 12px 40px rgba(20, 24, 27, 0.08);
+      --skeleton: #E5E9F0;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--primary-text);
+      background: var(--bg);
+      min-height: 100vh;
+      letter-spacing: -0.2px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at top, rgba(90, 125, 255, 0.18) 0%, transparent 55%),
+        linear-gradient(180deg, #EAF0FF 0%, #F1F4F8 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 32px;
+      min-height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--secondary-text);
+    }
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(90, 125, 255, 0.3);
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px 28px 28px;
+      box-shadow: var(--shadow);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--skeleton);
+      margin: 0 auto 16px;
+      display: block;
+      border: 3px solid #fff;
+      box-shadow: 0 6px 20px rgba(20, 24, 27, 0.1);
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      letter-spacing: -0.5px;
+    }
+    .username {
+      font-size: 14px;
+      color: var(--secondary-text);
+      margin: 0 0 16px;
+      font-weight: 500;
+    }
+    .bio {
+      font-size: 14px;
+      color: var(--secondary-text);
+      line-height: 1.5;
+      margin: 0 0 24px;
+      font-weight: 400;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 24px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      width: 100%;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: 0 8px 24px rgba(90, 125, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .cta-primary:hover { transform: translateY(-1px); background: var(--accent-strong); }
+    .cta-primary:active { transform: translateY(0); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 20px;
+      color: var(--secondary-text);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(20, 24, 27, 0.08);
+    }
+
+    .stores {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: var(--primary-text);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: transform 0.15s ease;
+    }
+    .store-btn:hover { transform: translateY(-1px); }
+    .store-btn svg { flex-shrink: 0; }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, var(--skeleton) 0%, #EEF2F7 50%, var(--skeleton) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite linear;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skel-name { width: 140px; height: 22px; margin: 0 auto 8px; }
+    .skel-username { width: 100px; height: 14px; margin: 0 auto 16px; }
+    .skel-bio { width: 240px; height: 14px; margin: 0 auto 8px; }
+    .skel-bio-2 { width: 180px; height: 14px; margin: 0 auto 24px; }
+
+    /* Not found state */
+    .not-found {
+      padding: 32px 16px;
+    }
+    .not-found h2 {
+      font-size: 18px;
+      margin: 16px 0 8px;
+      font-weight: 700;
+    }
+    .not-found p {
+      font-size: 14px;
+      color: var(--secondary-text);
+      margin: 0 0 24px;
+    }
+    .not-found-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--secondary-text);
+      text-align: center;
+    }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="brand">
+    <span class="brand-logo">☁️</span>
+    <span>Songe</span>
+  </div>
+
+  <main class="card" id="card">
+    <!-- Loading state (replaced by JS) -->
+    <div id="loading">
+      <div class="avatar skeleton"></div>
+      <div class="skel-name skeleton"></div>
+      <div class="skel-username skeleton"></div>
+      <div class="skel-bio skeleton"></div>
+      <div class="skel-bio-2 skeleton"></div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">songe.techno.studio</a>
+  </footer>
+
+  <template id="tpl-profile">
+    <img class="avatar" id="avatar" alt="Photo de profil" />
+    <h1 class="name" id="name"></h1>
+    <p class="username" id="username"></p>
+    <p class="bio" id="bio"></p>
+
+    <button class="cta-primary" id="open-app">
+      Ouvrir dans Songe
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
+
+    <div class="divider">Pas encore l'app ?</div>
+
+    <div class="stores">
+      <a class="store-btn" id="ios-link" href="https://apps.apple.com/app/id6741076205" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.03-3.02 2.47-4.47 2.58-4.54-1.41-2.06-3.6-2.34-4.38-2.37-1.86-.19-3.63 1.1-4.58 1.1-.95 0-2.4-1.07-3.95-1.04-2.03.03-3.91 1.18-4.95 3-2.11 3.66-.54 9.06 1.51 12.03 1.01 1.46 2.21 3.09 3.79 3.03 1.52-.06 2.1-.99 3.94-.99s2.36.99 3.97.96c1.64-.03 2.68-1.48 3.69-2.94 1.16-1.69 1.64-3.32 1.67-3.41-.04-.02-3.21-1.23-3.24-4.88zM14.13 3.66c.83-1.01 1.39-2.41 1.24-3.81-1.2.05-2.66.8-3.52 1.81-.77.89-1.45 2.32-1.27 3.69 1.34.1 2.71-.68 3.55-1.69z"/></svg>
+        App Store
+      </a>
+      <a class="store-btn" id="android-link" href="https://play.google.com/store/apps/details?id=studio.techno.songe" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.121 12l2.577-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302L5.864 2.658z"/></svg>
+        Google Play
+      </a>
+    </div>
+  </template>
+
+  <template id="tpl-not-found">
+    <div class="not-found">
+      <div class="not-found-icon">🔍</div>
+      <h2>Profil introuvable</h2>
+      <p>Cet utilisateur Songe n'existe pas ou a changé de pseudo.</p>
+      <a class="cta-primary" href="/" style="text-decoration: none;">
+        Découvrir Songe
+      </a>
+    </div>
+  </template>
+
+  <script>
+    // ----- Config -----
+    const SUPABASE_URL = 'https://ikeagfxyatdpcdvdlcdk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWFnZnh5YXRkcGNkdmRsY2RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYwOTIwODEsImV4cCI6MjA1MTY2ODA4MX0.Z7ellW_RohtxTQ12OaD1-a_OZkHfGLhApRAx7DeYzyw';
+    const DEFAULT_AVATAR = 'https://ikeagfxyatdpcdvdlcdk.supabase.co/storage/v1/object/public/user_profile_picture/sky_default.jpg';
+
+    // ----- Username extraction -----
+    // Supports both /u/{username} (rewrite) and /u/?u={username} (fallback)
+    function extractUsername() {
+      const path = window.location.pathname;
+      const match = path.match(/^\/u\/([^\/\?#]+)/);
+      if (match && match[1] && match[1] !== 'index.html') return decodeURIComponent(match[1]);
+      const params = new URLSearchParams(window.location.search);
+      return params.get('u');
+    }
+
+    // ----- Supabase fetch -----
+    async function fetchProfile(username) {
+      const url = `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(username)}&select=id,name,username,photo_url,description&limit=1`;
+      try {
+        const res = await fetch(url, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Accept': 'application/json',
+          },
+        });
+        if (!res.ok) return null;
+        const rows = await res.json();
+        return rows && rows[0] ? rows[0] : null;
+      } catch (err) {
+        console.error('[songe] profile fetch failed', err);
+        return null;
+      }
+    }
+
+    // ----- Render -----
+    function renderProfile(profile) {
+      const tpl = document.getElementById('tpl-profile');
+      const card = document.getElementById('card');
+      card.innerHTML = '';
+      card.appendChild(tpl.content.cloneNode(true));
+
+      const avatar = card.querySelector('#avatar');
+      avatar.src = profile.photo_url || DEFAULT_AVATAR;
+      avatar.onerror = () => { avatar.src = DEFAULT_AVATAR; };
+
+      card.querySelector('#name').textContent = profile.name || profile.username || 'Lecteur Songe';
+      card.querySelector('#username').textContent = '@' + (profile.username || '');
+
+      const bioEl = card.querySelector('#bio');
+      if (profile.description && profile.description.trim()) {
+        bioEl.textContent = profile.description;
+      } else {
+        bioEl.style.display = 'none';
+      }
+
+      // Update document title and OG tags (best-effort, won't help static crawlers)
+      document.title = `${profile.name || profile.username} sur Songe`;
+
+      // Open app handler — try custom scheme; if app installed, this jumps in.
+      // Universal Links should already have intercepted before this page even loaded
+      // when the app is installed. This button is a manual fallback.
+      const openBtn = card.querySelector('#open-app');
+      openBtn.addEventListener('click', () => {
+        const deepLink = `songe://songe.com/user?id=${encodeURIComponent(profile.id)}`;
+        window.location.href = deepLink;
+      });
+    }
+
+    function renderNotFound() {
+      const tpl = document.getElementById('tpl-not-found');
+      const card = document.getElementById('card');
+      card.innerHTML = '';
+      card.appendChild(tpl.content.cloneNode(true));
+    }
+
+    // ----- Boot -----
+    (async function () {
+      const username = extractUsername();
+      if (!username) {
+        renderNotFound();
+        return;
+      }
+      const profile = await fetchProfile(username);
+      if (!profile) {
+        renderNotFound();
+        return;
+      }
+      renderProfile(profile);
+    })();
+  </script>
+</body>
+</html>

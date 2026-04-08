@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "studio.techno.songe",
+      "sha256_cert_fingerprints": [
+        "78:4B:03:D8:0C:87:4B:F9:16:54:CA:46:26:EC:C6:65:43:1D:91:C4:8B:8C:77:AB:3B:51:12:17:B8:D3:49:0A",
+        "7B:1E:5B:05:49:DE:AD:28:D2:19:9B:29:1F:8A:B4:53:93:C4:A8:F0:4E:60:14:6C:03:71:21:1E:E3:FC:7C:36"
+      ]
+    }
+  }
+]

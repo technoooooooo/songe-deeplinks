@@ -1,0 +1,14 @@
+{
+  "name": "songe-deeplinks",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Static site for songe.techno.studio — Universal Links / App Links handling and profile share pages",
+  "scripts": {
+    "dev": "vercel dev --listen 3000",
+    "deploy": "vercel deploy --prod",
+    "deploy:preview": "vercel deploy"
+  },
+  "devDependencies": {
+    "vercel": "^39.1.0"
+  }
+}
