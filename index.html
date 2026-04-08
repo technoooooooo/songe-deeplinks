@@ -28,21 +28,45 @@
   <meta name="apple-itunes-app" content="app-id=6741076205" />
 
   <script>
-    // Redirection auto vers le store approprié sur mobile.
-    // Exécuté avant le rendu pour éviter tout flash de la landing.
+    // Au chargement sur mobile : on tente d'abord d'ouvrir l'app via son
+    // custom scheme. Si l'app n'est pas installée (ou si l'OS bloque), on
+    // bascule sur la fiche store après un court délai.
+    //
+    // Note : les Universal Links iOS ne se déclenchent pas quand on est déjà
+    // dans Safari sur le domaine associé — le custom scheme est donc le seul
+    // moyen fiable d'ouvrir l'app depuis cette page.
     (function () {
       var IOS_URL = 'https://apps.apple.com/app/id6741076205';
       var ANDROID_URL = 'https://play.google.com/store/apps/details?id=studio.techno.songe';
+      var APP_SCHEME = 'songe://';
+
       var ua = navigator.userAgent || navigator.vendor || '';
       // iPadOS 13+ se présente comme Macintosh avec touch — on l'attrape aussi.
       var isIOS = /iPad|iPhone|iPod/.test(ua) ||
         (/Macintosh/.test(ua) && 'ontouchend' in document);
       var isAndroid = /android/i.test(ua);
-      if (isIOS) {
-        window.location.replace(IOS_URL);
-      } else if (isAndroid) {
-        window.location.replace(ANDROID_URL);
-      }
+      if (!isIOS && !isAndroid) return;
+
+      var storeUrl = isIOS ? IOS_URL : ANDROID_URL;
+      var appOpened = false;
+
+      // Si l'app s'ouvre, l'onglet passe en arrière-plan : on capte ça pour
+      // annuler le fallback vers le store.
+      function markOpened() { appOpened = true; }
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) markOpened();
+      });
+      window.addEventListener('pagehide', markOpened);
+      window.addEventListener('blur', markOpened);
+
+      // Tente d'ouvrir l'app.
+      window.location.href = APP_SCHEME;
+
+      // Fallback vers le store si l'app n'a pas répondu.
+      setTimeout(function () {
+        if (appOpened || document.hidden) return;
+        window.location.replace(storeUrl);
+      }, 1500);
     })();
   </script>
 
