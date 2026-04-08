@@ -311,7 +311,10 @@
 
     // ----- Supabase fetch -----
     async function fetchProfile(username) {
-      const url = `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(username)}&select=id,name,username,photo_url,description&limit=1`;
+      // URLs are clean (/u/antoine) but the DB stores usernames as "@antoine".
+      // Tolerate both inputs.
+      const normalized = username.startsWith('@') ? username : '@' + username;
+      const url = `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(normalized)}&select=id,name,username,photo_url,description&limit=1`;
       try {
         const res = await fetch(url, {
           headers: {
@@ -341,7 +344,9 @@
       avatar.onerror = () => { avatar.src = DEFAULT_AVATAR; };
 
       card.querySelector('#name').textContent = profile.name || profile.username || 'Lecteur Songe';
-      card.querySelector('#username').textContent = '@' + (profile.username || '');
+      // profile.username already includes the @ prefix (DB convention).
+      const handle = profile.username || '';
+      card.querySelector('#username').textContent = handle.startsWith('@') ? handle : '@' + handle;
 
       const bioEl = card.querySelector('#bio');
       if (profile.description && profile.description.trim()) {
