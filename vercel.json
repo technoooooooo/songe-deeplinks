@@ -1,7 +1,8 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/u/:username", "destination": "/u" }
+    { "source": "/u/:username", "destination": "/u" },
+    { "source": "/pack/:id", "destination": "/pack" }
   ],
   "headers": [
     {
