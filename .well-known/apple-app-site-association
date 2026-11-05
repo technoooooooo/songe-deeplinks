@@ -7,6 +7,10 @@
           {
             "/": "/u/*",
             "comment": "Profile share links"
+          },
+          {
+            "/": "/pack/*",
+            "comment": "Starter pack share links"
           }
         ]
       }

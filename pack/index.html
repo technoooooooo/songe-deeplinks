@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#5A7DFF" />
+  <title>Starter pack Songe</title>
+  <meta name="description" content="Découvre cette sélection de livres sur Songe — l'app pour les amoureux de lecture." />
+
+  <!-- Open Graph (statiques — pour des previews dynamiques par pack il faudra une edge function) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Découvre ce starter pack sur Songe" />
+  <meta property="og:description" content="Une sélection de livres à découvrir, à enregistrer et à partager." />
+  <meta property="og:site_name" content="Songe" />
+  <meta property="og:image" content="https://songe.techno.studio/og-image.jpg" />
+  <meta property="og:image:secure_url" content="https://songe.techno.studio/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="1024" />
+  <meta property="og:image:alt" content="Songe — l'app pour les amoureux de lecture" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Découvre ce starter pack sur Songe" />
+  <meta name="twitter:description" content="Une sélection de livres à découvrir, à enregistrer et à partager." />
+  <meta name="twitter:image" content="https://songe.techno.studio/og-image.jpg" />
+
+  <!-- Apple Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=6741076205" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --accent: #5A7DFF;
+      --accent-soft: rgba(90, 125, 255, 0.08);
+      --accent-strong: #4666E8;
+      --primary-text: #14181B;
+      --secondary-text: #57636C;
+      --bg: #F1F4F8;
+      --card: #FFFFFF;
+      --shadow: 0 12px 40px rgba(20, 24, 27, 0.08);
+      --skeleton: #E5E9F0;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--primary-text);
+      background: var(--bg);
+      min-height: 100vh;
+      letter-spacing: -0.2px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at top, rgba(90, 125, 255, 0.18) 0%, transparent 55%),
+        linear-gradient(180deg, #EAF0FF 0%, #F1F4F8 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 32px;
+      min-height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--secondary-text);
+    }
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(90, 125, 255, 0.3);
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px 28px 28px;
+      box-shadow: var(--shadow);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 24px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      width: 100%;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: 0 8px 24px rgba(90, 125, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .cta-primary:hover { transform: translateY(-1px); background: var(--accent-strong); }
+    .cta-primary:active { transform: translateY(0); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 20px;
+      color: var(--secondary-text);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(20, 24, 27, 0.08);
+    }
+
+    .stores {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: var(--primary-text);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: transform 0.15s ease;
+    }
+    .store-btn:hover { transform: translateY(-1px); }
+    .store-btn svg { flex-shrink: 0; }
+
+    .pack-cover {
+      width: 180px;
+      height: 180px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      background: var(--accent-soft);
+      box-shadow: 0 10px 28px rgba(20, 24, 27, 0.14);
+      display: grid;
+      place-items: center;
+      font-size: 56px;
+    }
+    .pack-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .pack-cover.mosaic {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      place-items: stretch;
+    }
+    .pack-cover.mosaic img { min-width: 0; min-height: 0; }
+
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 6px;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+    .owner {
+      font-size: 14px;
+      color: var(--accent);
+      margin: 0 0 12px;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+    .description {
+      font-size: 14px;
+      color: var(--secondary-text);
+      line-height: 1.5;
+      margin: 0 0 12px;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+    .count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+      margin: 0 0 20px;
+    }
+
+    .books {
+      list-style: none;
+      margin: 24px 0 0;
+      padding: 0;
+      text-align: left;
+    }
+    .book {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(20, 24, 27, 0.06);
+    }
+    .book-cover {
+      width: 44px;
+      height: 66px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--skeleton);
+      display: block;
+    }
+    .book-text { min-width: 0; }
+    .book-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.25;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+    .book-author {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin: 3px 0 0;
+      overflow-wrap: anywhere;
+    }
+
+    .skel-cover { width: 180px; height: 180px; border-radius: 18px; margin: 0 auto 20px; }
+    .skel-title { width: 200px; height: 22px; margin: 0 auto 10px; }
+    .skel-owner { width: 110px; height: 14px; margin: 0 auto 16px; }
+    .skel-text { width: 240px; height: 14px; margin: 0 auto 24px; }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, var(--skeleton) 0%, #EEF2F7 50%, var(--skeleton) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite linear;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Not found state */
+    .not-found {
+      padding: 32px 16px;
+    }
+    .not-found h2 {
+      font-size: 18px;
+      margin: 16px 0 8px;
+      font-weight: 700;
+    }
+    .not-found p {
+      font-size: 14px;
+      color: var(--secondary-text);
+      margin: 0 0 24px;
+    }
+    .not-found-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--secondary-text);
+      text-align: center;
+    }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="brand">
+    <span class="brand-logo">☁️</span>
+    <span>Songe</span>
+  </div>
+
+  <main class="card" id="card">
+    <!-- Loading state (replaced by JS) -->
+    <div id="loading">
+      <div class="skel-cover skeleton"></div>
+      <div class="skel-title skeleton"></div>
+      <div class="skel-owner skeleton"></div>
+      <div class="skel-text skeleton"></div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">songe.techno.studio</a>
+  </footer>
+
+  <template id="tpl-pack">
+    <div class="pack-cover" id="cover"></div>
+    <h1 class="title" id="title"></h1>
+    <p class="owner" id="owner"></p>
+    <p class="description" id="description"></p>
+    <p class="count" id="count"></p>
+
+    <button class="cta-primary" id="open-app">
+      Ouvrir dans Songe
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
+
+    <ul class="books" id="books"></ul>
+
+    <div class="divider">Pas encore l'app ?</div>
+
+    <div class="stores">
+      <a class="store-btn" id="ios-link" href="https://apps.apple.com/app/id6741076205" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.03-3.02 2.47-4.47 2.58-4.54-1.41-2.06-3.6-2.34-4.38-2.37-1.86-.19-3.63 1.1-4.58 1.1-.95 0-2.4-1.07-3.95-1.04-2.03.03-3.91 1.18-4.95 3-2.11 3.66-.54 9.06 1.51 12.03 1.01 1.46 2.21 3.09 3.79 3.03 1.52-.06 2.1-.99 3.94-.99s2.36.99 3.97.96c1.64-.03 2.68-1.48 3.69-2.94 1.16-1.69 1.64-3.32 1.67-3.41-.04-.02-3.21-1.23-3.24-4.88zM14.13 3.66c.83-1.01 1.39-2.41 1.24-3.81-1.2.05-2.66.8-3.52 1.81-.77.89-1.45 2.32-1.27 3.69 1.34.1 2.71-.68 3.55-1.69z"/></svg>
+        App Store
+      </a>
+      <a class="store-btn" id="android-link" href="https://play.google.com/store/apps/details?id=studio.techno.songe" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.121 12l2.577-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302L5.864 2.658z"/></svg>
+        Google Play
+      </a>
+    </div>
+  </template>
+
+  <template id="tpl-book">
+    <li class="book">
+      <div class="book-text">
+        <p class="book-title"></p>
+        <p class="book-author"></p>
+      </div>
+    </li>
+  </template>
+
+  <template id="tpl-not-found">
+    <div class="not-found">
+      <div class="not-found-icon">🔍</div>
+      <h2>Starter pack introuvable</h2>
+      <p>Il a peut-être été supprimé ou rendu privé par son créateur.</p>
+      <a class="cta-primary" href="/" style="text-decoration: none;">
+        Découvrir Songe
+      </a>
+    </div>
+  </template>
+
+  <script>
+    // ----- Config -----
+    const SUPABASE_URL = 'https://ikeagfxyatdpcdvdlcdk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWFnZnh5YXRkcGNkdmRsY2RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYwOTIwODEsImV4cCI6MjA1MTY2ODA4MX0.Z7ellW_RohtxTQ12OaD1-a_OZkHfGLhApRAx7DeYzyw';
+    const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    // ----- Pack id extraction -----
+    function extractPackId() {
+      const match = window.location.pathname.match(/^\/pack\/([^\/?#]+)/);
+      const id = match ? decodeURIComponent(match[1]) : null;
+      return id && UUID_PATTERN.test(id) ? id : null;
+    }
+
+    // ----- Supabase fetch -----
+    // Renvoie null pour un pack inconnu ou privé, et si le réseau échoue.
+    async function fetchPack(id) {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_public_starter_pack`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ p_id: id }),
+        });
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (err) {
+        console.error('[songe] starter pack fetch failed', err);
+        return null;
+      }
+    }
+
+    // ----- Render -----
+    // Titres, descriptions et URLs viennent des utilisateurs : textContent et
+    // URLs vérifiées uniquement, jamais d'innerHTML avec ces valeurs.
+    function imageUrl(value) {
+      try {
+        const url = new URL(value);
+        if (url.protocol === 'http:') url.protocol = 'https:';
+        return url.protocol === 'https:' ? url.href : null;
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function coverImage(url) {
+      const img = document.createElement('img');
+      img.alt = '';
+      img.referrerPolicy = 'no-referrer';
+      img.onerror = () => { img.style.visibility = 'hidden'; };
+      img.src = url;
+      return img;
+    }
+
+    // Comme dans l'app : la couverture choisie, sinon une mosaïque à partir de
+    // quatre livres, sinon le premier livre, sinon une icône.
+    function renderCover(el, pack, bookCovers) {
+      const chosen = imageUrl(pack.cover_url);
+      if (chosen) {
+        el.appendChild(coverImage(chosen));
+      } else if (bookCovers.length >= 4) {
+        el.classList.add('mosaic');
+        bookCovers.slice(0, 4).forEach((url) => el.appendChild(coverImage(url)));
+      } else if (bookCovers.length > 0) {
+        el.appendChild(coverImage(bookCovers[0]));
+      } else {
+        el.textContent = '📚';
+      }
+    }
+
+    // Sans couverture, ou si elle ne charge pas : un simple rectangle
+    function bookCover(url) {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'book-cover';
+      if (!url) return placeholder;
+      const img = coverImage(url);
+      img.className = 'book-cover';
+      img.loading = 'lazy';
+      img.onerror = () => img.replaceWith(placeholder);
+      return img;
+    }
+
+    function renderBook(book) {
+      const item = document.getElementById('tpl-book').content.cloneNode(true);
+      item.querySelector('.book').prepend(bookCover(imageUrl(book.cover)));
+      item.querySelector('.book-title').textContent = book.title || 'Livre';
+      const author = item.querySelector('.book-author');
+      if (book.author) author.textContent = book.author;
+      else author.remove();
+      return item;
+    }
+
+    function renderPack(pack) {
+      const card = document.getElementById('card');
+      card.innerHTML = '';
+      card.appendChild(document.getElementById('tpl-pack').content.cloneNode(true));
+
+      const books = Array.isArray(pack.books) ? pack.books : [];
+      const bookCovers = books.map((book) => imageUrl(book.cover)).filter(Boolean);
+      renderCover(card.querySelector('#cover'), pack, bookCovers);
+
+      card.querySelector('#title').textContent = pack.title;
+      document.title = `${pack.title} sur Songe`;
+
+      // Le pseudo est stocké avec son @ (convention de la base).
+      const handle = pack.owner_username || '';
+      const owner = pack.owner_name || handle;
+      const ownerEl = card.querySelector('#owner');
+      if (handle) ownerEl.textContent = `par ${handle.startsWith('@') ? handle : '@' + handle}`;
+      else if (owner) ownerEl.textContent = `par ${owner}`;
+      else ownerEl.remove();
+
+      const description = card.querySelector('#description');
+      if (pack.description && pack.description.trim()) description.textContent = pack.description;
+      else description.remove();
+
+      card.querySelector('#count').textContent = books.length > 1 ? `${books.length} livres` : `${books.length} livre`;
+
+      const list = card.querySelector('#books');
+      if (books.length === 0) list.remove();
+      else books.forEach((book) => list.appendChild(renderBook(book)));
+
+      // Les Universal Links ouvrent l'app avant cette page quand elle est installée :
+      // ce bouton est un repli manuel.
+      card.querySelector('#open-app').addEventListener('click', () => {
+        window.location.href = `songe://songe.com/starterPack?id=${encodeURIComponent(pack.id)}`;
+      });
+    }
+
+    function renderNotFound() {
+      const card = document.getElementById('card');
+      card.innerHTML = '';
+      card.appendChild(document.getElementById('tpl-not-found').content.cloneNode(true));
+    }
+
+    // ----- Boot -----
+    (async function () {
+      const id = extractPackId();
+      const pack = id ? await fetchPack(id) : null;
+      if (pack) renderPack(pack);
+      else renderNotFound();
+    })();
+  </script>
+</body>
+</html>
