@@ -323,14 +323,17 @@
       // URLs are clean (/u/antoine) but the DB stores usernames as "@antoine".
       // Tolerate both inputs.
       const normalized = username.startsWith('@') ? username : '@' + username;
-      const url = `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(normalized)}&select=id,name,username,photo_url,description&limit=1`;
+      const url = `${SUPABASE_URL}/rest/v1/rpc/get_public_profile`;
       try {
         const res = await fetch(url, {
+          method: 'POST',
           headers: {
             'apikey': SUPABASE_ANON_KEY,
             'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify({ p_username: normalized }),
         });
         if (!res.ok) return null;
         const rows = await res.json();
